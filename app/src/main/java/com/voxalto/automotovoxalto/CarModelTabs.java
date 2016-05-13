@@ -44,7 +44,6 @@ public class CarModelTabs extends TabActivity implements View.OnClickListener{
         host.addTab(spec1);
     }
 
-
     @Override
     public void onClick(View v) {
         Intent i = new Intent(CarModelTabs.this, AddCar.class);
