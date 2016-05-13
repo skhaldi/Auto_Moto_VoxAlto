@@ -42,7 +42,7 @@ public class AddCar extends AppCompatActivity {
             EditText vin = (EditText)findViewById(R.id.TFvin);
             String str_vin = vin.getText().toString();
 
-            Intent i = new Intent(AddCar.this, CarInfoMnt.class);
+            Intent i = new Intent(AddCar.this, CarModelTabs.class);
             i.putExtra("VIN",str_vin);
             startActivity(i);
         }

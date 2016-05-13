@@ -40,7 +40,7 @@ public class CarInfoMnt extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.car_info_mnt);
-        slidingMenu();
+        //slidingMenu();
         String vin = getIntent().getStringExtra("VIN");
         Intent i = new Intent(CarInfoMnt.this, InfoCar.class);
         i.putExtra("VIN",vin);
@@ -94,111 +94,111 @@ public class CarInfoMnt extends AppCompatActivity {
     }
 
 
-    public void slidingMenu() {
-        final String appName = getString(R.string.app_name);
-        List<ItemSildeMenu> listSliding = new ArrayList<>();
-        SlidingMenuAdapter adapter = new SlidingMenuAdapter(this, listSliding);
-        final ListView listViewSliding = (ListView) findViewById(R.id.lv_sliding_menu);
-        final DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+//    public void slidingMenu() {
+//        final String appName = getString(R.string.app_name);
+//        List<ItemSildeMenu> listSliding = new ArrayList<>();
+//        SlidingMenuAdapter adapter = new SlidingMenuAdapter(this, listSliding);
+//        final ListView listViewSliding = (ListView) findViewById(R.id.lv_sliding_menu);
+//        final DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+//
+//        //Add item for sliding list
+//        listSliding.add(new ItemSildeMenu(R.drawable.ic_action_settings, "Settings"));
+//        listSliding.add(new ItemSildeMenu(R.drawable.ic_action_about, "About"));
+//        listSliding.add(new ItemSildeMenu(R.mipmap.ic_launcher, "Android"));
+//
+//        listViewSliding.setAdapter(adapter);
+//
+//        //Set title
+//        setTitle(appName);
+//        //Item selected
+//        listViewSliding.setItemChecked(0, true);
+//        //Display icon to open/close sliding list
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        //Close menu
+//        drawerLayout.closeDrawer(listViewSliding);
+//        //Display fragment 1 when start
+//        replaceFragment(0);
+//
+//        //Handle on item click
+//        listViewSliding.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//               @Override
+//               public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                   //Set title
+//                   setTitle(appName);
+//                   //Item selected
+//                   listViewSliding.setItemChecked(position, true);
+//                   //Display fragment 1 when start
+//                   replaceFragment(position);
+//                   //Close menu
+//                   drawerLayout.closeDrawer(listViewSliding);
+//               }
+//           }
+//        );
+//
+//        actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.drawer_opened, R.string.drawer_closed) {
+//            @Override
+//            public void onDrawerOpened(View drawerView) {
+//                super.onDrawerOpened(drawerView);
+//                invalidateOptionsMenu();
+//            }
+//
+//            @Override
+//            public void onDrawerClosed(View drawerView) {
+//                super.onDrawerClosed(drawerView);
+//                invalidateOptionsMenu();
+//            }
+//        };
+//        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+//    }
 
-        //Add item for sliding list
-        listSliding.add(new ItemSildeMenu(R.drawable.ic_action_settings, "Settings"));
-        listSliding.add(new ItemSildeMenu(R.drawable.ic_action_about, "About"));
-        listSliding.add(new ItemSildeMenu(R.mipmap.ic_launcher, "Android"));
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        // Inflate the menu; this adds items to the action bar if it is present.
+//        getMenuInflater().inflate(R.menu.main_menu, menu);
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        // Handle action bar item clicks here. The action bar will
+//        // automatically handle clicks on the Home/Up button, so long
+//        // as you specify a parent activity in AndroidManifest.xml.
+//
+//        if (actionBarDrawerToggle.onOptionsItemSelected(item)) {
+//            return true;
+//        }
+//        return super.onOptionsItemSelected(item);
+//    }
+//
+//    @Override
+//    protected void onPostCreate(Bundle savedInstanceState) {
+//        super.onPostCreate(savedInstanceState);
+//        actionBarDrawerToggle.syncState();
+//    }
 
-        listViewSliding.setAdapter(adapter);
-
-        //Set title
-        setTitle(appName);
-        //Item selected
-        listViewSliding.setItemChecked(0, true);
-        //Display icon to open/close sliding list
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        //Close menu
-        drawerLayout.closeDrawer(listViewSliding);
-        //Display fragment 1 when start
-        replaceFragment(0);
-
-        //Handle on item click
-        listViewSliding.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-               @Override
-               public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                   //Set title
-                   setTitle(appName);
-                   //Item selected
-                   listViewSliding.setItemChecked(position, true);
-                   //Display fragment 1 when start
-                   replaceFragment(position);
-                   //Close menu
-                   drawerLayout.closeDrawer(listViewSliding);
-               }
-           }
-        );
-
-        actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.drawer_opened, R.string.drawer_closed) {
-            @Override
-            public void onDrawerOpened(View drawerView) {
-                super.onDrawerOpened(drawerView);
-                invalidateOptionsMenu();
-            }
-
-            @Override
-            public void onDrawerClosed(View drawerView) {
-                super.onDrawerClosed(drawerView);
-                invalidateOptionsMenu();
-            }
-        };
-        drawerLayout.addDrawerListener(actionBarDrawerToggle);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-
-        if (actionBarDrawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        actionBarDrawerToggle.syncState();
-    }
-
-    private void replaceFragment(int pos) {
-        android.app.Fragment fragment = null;
-        switch (pos) {
-            case 0:
-                fragment = new Fragment1();
-                break;
-            case 1:
-                fragment = new Fragment2();
-                break;
-            case 2:
-                fragment = new Fragment3();
-                break;
-            default:
-                fragment = new Fragment1();
-                break;
-        }
-
-        if (fragment != null ) {
-            android.app.FragmentManager fragmentManager = getFragmentManager();
-            FragmentTransaction transaction = fragmentManager.beginTransaction();
-            transaction.replace(R.id.add_tabs_content, fragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
-        }
-    }
+//    private void replaceFragment(int pos) {
+//        android.app.Fragment fragment = null;
+//        switch (pos) {
+//            case 0:
+//                fragment = new Fragment1();
+//                break;
+//            case 1:
+//                fragment = new Fragment2();
+//                break;
+//            case 2:
+//                fragment = new Fragment3();
+//                break;
+//            default:
+//                fragment = new Fragment1();
+//                break;
+//        }
+//
+//        if (fragment != null ) {
+//            android.app.FragmentManager fragmentManager = getFragmentManager();
+//            FragmentTransaction transaction = fragmentManager.beginTransaction();
+//            transaction.replace(R.id.add_tabs_content, fragment);
+//            transaction.addToBackStack(null);
+//            transaction.commit();
+//        }
+//    }
 }
