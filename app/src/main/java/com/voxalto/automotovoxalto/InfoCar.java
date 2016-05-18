@@ -31,10 +31,15 @@ public class InfoCar extends Fragment{
     private String model;
     private String make;
     private String year;
+    private String vin;
+    private String engineOilType;
+    private String engineCoolantType;
+    private String brakeType;
+    private String powerSteeringType;
 
     TabHost host;
     private TextView tv_vin, tv_make, tv_model, tv_year, tv_engineOilType, tv_engineCoolantType, tv_brakeType, tv_powerSteeringType;
-    private String vin;
+
 
     private JsonTask task = new JsonTask();
     private JsonTask task2 = new JsonTask();
@@ -47,6 +52,15 @@ public class InfoCar extends Fragment{
 //        year = getIntent().getStringExtra("Year");
 //        vin = getIntent().getStringExtra("VIN");
         vin = getActivity().getIntent().getStringExtra("VIN");
+        make = getActivity().getIntent().getStringExtra("Make");
+        model = getActivity().getIntent().getStringExtra("Model");
+        year = getActivity().getIntent().getStringExtra("Year");
+        engineOilType = getActivity().getIntent().getStringExtra("EngineOilType");
+        engineCoolantType = getActivity().getIntent().getStringExtra("EngineCoolantType");
+        brakeType = getActivity().getIntent().getStringExtra("BrakeType");
+        powerSteeringType = getActivity().getIntent().getStringExtra("PowerSteeringType");
+
+
 
         if(vin != null)
             task.execute("https://api.edmunds.com/api/vehicle/v2/vins/" + vin + "?fmt=json&api_key=rp2xq63y4bf3nc2gusq9a2uy");
@@ -54,9 +68,8 @@ public class InfoCar extends Fragment{
        // else
         //TO DO : need an API that returns the car information by model/make/year
         //task.execute("https://api.edmunds.com/api/vehicle/v2/vins/" + vin + "?fmt=json&api_key=rp2xq63y4bf3nc2gusq9a2uy");
-
-
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -175,7 +188,6 @@ public class InfoCar extends Fragment{
                             }
                             tv_make.setText(makeName);
                             tv_model.setText(modelName);
-                            model = modelName;
                             tv_year.setText(year);
                             tv_vin.setText(vin);
                         }
@@ -210,7 +222,6 @@ public class InfoCar extends Fragment{
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            //addTab();
         }
     }
 }
