@@ -48,7 +48,6 @@ public class InfoCar extends Fragment{
         brakeType = getActivity().getIntent().getStringExtra("BrakeType");
         powerSteeringType = getActivity().getIntent().getStringExtra("PowerSteeringType");
 
-
         if (vinEntered != null) {
             task.execute("https://api.edmunds.com/api/vehicle/v2/vins/" + vinEntered + "?fmt=json&api_key=rp2xq63y4bf3nc2gusq9a2uy");
         }
