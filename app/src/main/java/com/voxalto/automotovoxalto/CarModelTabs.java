@@ -18,14 +18,7 @@ public class CarModelTabs extends TabActivity implements View.OnClickListener{
     TabHost host;
     Button btn_add_tab;
     private TextView tv_vin, tv_make, tv_model, tv_year, tv_engineOilType, tv_engineCoolantType, tv_brakeType, tv_powerSteeringType;
-    String model_tabs;
-    String make_tabs;
-    String year_tabs;
-    String vin_tabs;
-    String engineOilType_tabs;
-    String engineCoolantType_tabs;
-    String brakeType_tabs;
-    String powerSteeringType_tabs;
+    private String model_tabs, make_tabs, year_tabs, vin_tabs, engineOilType_tabs, engineCoolantType_tabs, brakeType_tabs, powerSteeringType_tabs;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +33,6 @@ public class CarModelTabs extends TabActivity implements View.OnClickListener{
 
     private ViewGroup _createTABForm(String model) {
         //retreive the values
-
         vin_tabs = getIntent().getStringExtra("VIN");
         make_tabs = getIntent().getStringExtra("Make");
         model_tabs = getIntent().getStringExtra("Model");

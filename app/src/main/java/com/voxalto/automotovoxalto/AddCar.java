@@ -40,10 +40,10 @@ import java.util.concurrent.ExecutionException;
 
 public class AddCar extends AppCompatActivity {
     EditText vin;
-    String str_vin;
-    String model;
-    String make;
-    String year;
+    String vinEntered = "";
+    String model = "";
+    String make = "";
+    String year = "";
     String engineOilType = "10W40";
     String engineCoolantType = "IAT";
     String brakeType = "DOT5";
@@ -52,24 +52,27 @@ public class AddCar extends AppCompatActivity {
     private JsonTask task = new JsonTask();
     private JsonTask task2 = new JsonTask();
     private ActionBarDrawerToggle actionBarDrawerToggle;
+    private DatabaseHelper helper;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_car);
+        helper = new DatabaseHelper(this);
         slidingMenu();
     }
 
     public void OnClickButtonScanVin(View v) throws ExecutionException, InterruptedException, JSONException {
         if(v.getId() == R.id.ScanVin){
             vin = (EditText)findViewById(R.id.TFvin);
-            str_vin = vin.getText().toString();
-
-            String output = task.execute("https://api.edmunds.com/api/vehicle/v2/vins/" + str_vin + "?fmt=json&api_key=rp2xq63y4bf3nc2gusq9a2uy").get();
-            JSONObject obj = new JSONObject(output);
+            vinEntered = vin.getText().toString();
+            JSONObject obj = null;
+            String output = task.execute("https://api.edmunds.com/api/vehicle/v2/vins/" + vinEntered + "?fmt=json&api_key=rp2xq63y4bf3nc2gusq9a2uy").get();
+            if (output != null) {
+                obj = new JSONObject(output);
             model = obj.getJSONObject("model").getString("name");
-
+            }
             Intent i = new Intent(AddCar.this, CarModelTabs.class);
             i.putExtra("Model", model);
             i.putExtra("Make", make);
@@ -78,10 +81,9 @@ public class AddCar extends AppCompatActivity {
             i.putExtra("EngineCoolantType", engineCoolantType);
             i.putExtra("BrakeType", brakeType);
             i.putExtra("PowerSteeringType", powerSteeringType);
-            i.putExtra("VIN",str_vin);
+            i.putExtra("VIN", vinEntered);
             startActivity(i);
         }
-
     }
 
     public void OnClickButtonCancelVin(View v){
@@ -90,7 +92,6 @@ public class AddCar extends AppCompatActivity {
             startActivity(i);
         }
     }
-
 
     public void OnClickButtonScanModel(View v){
         if(v.getId() == R.id.ScanModel){
@@ -165,7 +166,7 @@ public class AddCar extends AppCompatActivity {
             JSONObject parentObject = null;
             try {
                 String style_id = "";
-                String vin = getIntent().getStringExtra("VIN");
+                String vin = "";
                 if (result != null) {
                     parentObject = new JSONObject(result);
                     if (parentObject != null) {
@@ -178,7 +179,11 @@ public class AddCar extends AppCompatActivity {
                             if (modelObject != null) {
                                 model = modelObject.getString("name");
                             }
+                            if ( parentObject.has("vin") ){
                             vin = parentObject.getString("vin");
+                            } else {
+                                vin = vinEntered.toUpperCase();
+                            }
                             JSONArray yearArray = parentObject.getJSONArray("years");
                             JSONObject yearObject = null;
                             if (yearArray != null) {
@@ -197,6 +202,22 @@ public class AddCar extends AppCompatActivity {
                                 JSONObject engines  = enginesObject.getJSONObject(0);
                                 String type = engines.getString("type");
                             }
+                        }
+                    }
+                } else {
+                    List<Car> cars = helper.getAllCar();
+                    if(cars != null && cars.size() > 0) {
+                        Car car1 = cars.get(cars.size() - 1);
+                        if (car1 != null) {
+                            make = car1.getMake();
+                            model = car1.getModel();
+                            int yearString = car1.getYear();
+                            year = String.valueOf(yearString);
+                            vinEntered = car1.getVin();
+                            engineOilType = car1.getEngineOilType();
+                            engineCoolantType  = car1.getEngineCoolantType();
+                            brakeType = car1.getBrakeType();
+                            powerSteeringType = car1.getSteeringType();
                         }
                     }
                 }

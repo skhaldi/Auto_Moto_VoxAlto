@@ -25,33 +25,21 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 
 
 public class InfoCar extends Fragment{
-    private String model;
-    private String make;
-    private String year;
-    private String vin;
-    private String engineOilType;
-    private String engineCoolantType;
-    private String brakeType;
-    private String powerSteeringType;
-
+    private String model, make, year, vinEntered, engineOilType, engineCoolantType, brakeType, powerSteeringType;
     TabHost host;
     private TextView tv_vin, tv_make, tv_model, tv_year, tv_engineOilType, tv_engineCoolantType, tv_brakeType, tv_powerSteeringType;
-
-
     private JsonTask task = new JsonTask();
-    private JsonTask task2 = new JsonTask();
+    private DatabaseHelper helper;
 
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.info_car);
-//        model = getIntent().getStringExtra("Model");
-//        make = getIntent().getStringExtra("Make");
-//        year = getIntent().getStringExtra("Year");
-//        vin = getIntent().getStringExtra("VIN");
-        vin = getActivity().getIntent().getStringExtra("VIN");
+        helper = new DatabaseHelper(getActivity());
+        vinEntered = getActivity().getIntent().getStringExtra("VIN");
         make = getActivity().getIntent().getStringExtra("Make");
         model = getActivity().getIntent().getStringExtra("Model");
         year = getActivity().getIntent().getStringExtra("Year");
@@ -61,13 +49,9 @@ public class InfoCar extends Fragment{
         powerSteeringType = getActivity().getIntent().getStringExtra("PowerSteeringType");
 
 
-
-        if(vin != null)
-            task.execute("https://api.edmunds.com/api/vehicle/v2/vins/" + vin + "?fmt=json&api_key=rp2xq63y4bf3nc2gusq9a2uy");
-
-       // else
-        //TO DO : need an API that returns the car information by model/make/year
-        //task.execute("https://api.edmunds.com/api/vehicle/v2/vins/" + vin + "?fmt=json&api_key=rp2xq63y4bf3nc2gusq9a2uy");
+        if (vinEntered != null) {
+            task.execute("https://api.edmunds.com/api/vehicle/v2/vins/" + vinEntered + "?fmt=json&api_key=rp2xq63y4bf3nc2gusq9a2uy");
+        }
     }
 
     @Override
@@ -75,31 +59,6 @@ public class InfoCar extends Fragment{
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.info_car, container, false);
     }
-
-/*    public void addTab(){
-        host = (TabHost)getView().findViewById(R.id.tabhost);
-        host.setup();
-        TabHost.TabSpec spec = host.newTabSpec(model);
-        spec.setContent(R.id.InfoLayout);
-        spec.setIndicator(model);
-        host.addTab(spec);*/
-
-
-//        spec.setContent(new TabHost.TabContentFactory() {
-//        @Override
-//            public View createTabContent(String tag) {
-//                return new AnalogClock(InfoCar.this);
-//            }
-//        });
-
-    //}
-
-
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.main_menu, menu);
-//        return true;
-//            }
-
 
     public class JsonTask extends AsyncTask<String, String, String> {
         @Override
@@ -156,12 +115,13 @@ public class InfoCar extends Fragment{
             tv_powerSteeringType = (TextView)getView().findViewById(R.id.powerSteeringType);
 
             JSONObject parentObject = null;
+            Car car = new Car();
             try {
-                String makeName = "Cheverolet";
-                String modelName = "Cheverolet";
-                String year = "2012";
+                String makeName = "";
+                String modelName = "";
+                String year = "";
                 String style_id = "";
-                String vin = getActivity().getIntent().getStringExtra("VIN");;
+                String vin = "";
                 if (result != null) {
                     parentObject = new JSONObject(result);
                     if (parentObject != null) {
@@ -174,7 +134,11 @@ public class InfoCar extends Fragment{
                             if (modelObject != null) {
                                 modelName = modelObject.getString("name");
                             }
+                            if ( parentObject.has("vin") ){
                             vin = parentObject.getString("vin");
+                            } else {
+                                vin = vinEntered.toUpperCase();
+                            }
                             JSONArray yearArray = parentObject.getJSONArray("years");
                             JSONObject yearObject = null;
                             if (yearArray != null) {
@@ -190,34 +154,41 @@ public class InfoCar extends Fragment{
                             tv_model.setText(modelName);
                             tv_year.setText(year);
                             tv_vin.setText(vin);
+                            tv_engineOilType.setText(engineOilType);
+                            tv_engineCoolantType.setText(engineCoolantType);
+                            tv_brakeType.setText(brakeType);
+                            tv_powerSteeringType.setText(powerSteeringType);
                         }
-                        if (parentObject != null) {
-                            if (parentObject.optJSONArray("engines") != null) {
-                                JSONArray enginesObject = parentObject.getJSONArray("engines");
-                                JSONObject engines  = enginesObject.getJSONObject(0);
-                                String type = engines.getString("type");
-                                tv_engineOilType.setText("10W40");
-                                tv_engineCoolantType.setText("IAT");
-                                tv_brakeType.setText("DOT5");
-                                tv_powerSteeringType.setText("Mineral Oil XXX");
-                            }
-                        }
+                        int yearInteger = Integer.parseInt(year);
+
+                        car.setMake(makeName);
+                        car.setModel(modelName);
+                        car.setYear(yearInteger);
+                        car.setVin(vin);
+
+                        car.setEngineOilType(engineOilType);
+                        car.setEngineCoolantType(engineCoolantType);
+                        car.setBrakeType(brakeType);
+                        car.setSteeringType(powerSteeringType);
+
+                        helper.insertCar(car);
                     }
                 } else {
-                    tv_make.setText(makeName);
-                    tv_model.setText(modelName);
-                    tv_year.setText(year);
-                    tv_vin.setText(vin);
-                    tv_engineOilType.setText("10W40");
-                    tv_engineCoolantType.setText("IAT");
-                    tv_brakeType.setText("DOT5");
-                    tv_powerSteeringType.setText("Mineral Oil XXX");
+                    List<Car> cars = helper.getAllCar();
+                    if(cars != null && cars.size() > 0) {
+                        Car car1 = cars.get(cars.size() - 1);
+                        if (car1 != null) {
+                            tv_make.setText(car1.getMake());
+                            tv_model.setText(car1.getModel());
+                            int yearString = car1.getYear();
+                            tv_year.setText(String.valueOf(yearString));
+                            tv_vin.setText(car1.getVin());
+                            tv_engineOilType.setText(car1.getEngineOilType());
+                            tv_engineCoolantType.setText(car1.getEngineCoolantType());
+                            tv_brakeType.setText(car1.getBrakeType());
+                            tv_powerSteeringType.setText(car1.getSteeringType());
                 }
-                if (style_id != "") {
-                    if (task.getStatus().toString() == "RUNNING") {
-                        task.cancel(true);
                     }
-                    task2.execute("https://api.edmunds.com/api/vehicle/v2/styles/" + style_id + "/engines?availability=standard&fmt=json&api_key=rp2xq63y4bf3nc2gusq9a2uy");
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

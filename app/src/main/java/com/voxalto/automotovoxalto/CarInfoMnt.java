@@ -40,9 +40,9 @@ public class CarInfoMnt extends AppCompatActivity {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.car_info_mnt);
 
-        String vin = getIntent().getStringExtra("VIN");
-        Intent i = new Intent(CarInfoMnt.this, InfoCar.class);
-        i.putExtra("VIN",vin);
+//        String vin = getIntent().getStringExtra("VIN");
+//        Intent i = new Intent(CarInfoMnt.this, InfoCar.class);
+//        i.putExtra("VIN",vin);
 
         getSupportActionBar().hide();
 
