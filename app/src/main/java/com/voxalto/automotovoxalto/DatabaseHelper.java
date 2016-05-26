@@ -10,6 +10,7 @@ import android.util.Log;
 import java.lang.reflect.Array;
 import java.sql.RowId;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -36,9 +37,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static String dbPath = "";
 
     SQLiteDatabase db;
-    private static final String TABLE_CREATE = "create table cars (id integer primary key, vin text, make text,"+
-            " model text, year integer, engine_oil_type text, engine_coolant_type text,  brake_type text,"+
-            " power_steering_type text);";
+    private static final String TABLE_CREATE = "create table if not exists cars  (id integer primary key, vin text not null, make text not null,"+
+            " model text not null, year integer not null, engine_oil_type text not null, engine_coolant_type text not null,  brake_type text not null,"+
+            " power_steering_type text not null, unique (id, vin));";
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -115,6 +116,30 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             }
         }
         return cars;
+    }
+
+    public List<String> getAllVins() {
+        List<String> vins = new ArrayList<String>();
+        String CARS_SELECT_QUERY = String.format("SELECT * FROM " + TABLE_NAME);
+
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = null;
+        cursor = db.rawQuery(CARS_SELECT_QUERY, null);
+        try {
+            if (cursor.moveToFirst()) {
+                do {
+                    String vin = cursor.getString(cursor.getColumnIndex(COLUMN_VIN));
+                    vins.add(vin);
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            Log.d("VINS", e.getMessage());
+        } finally {
+            if (cursor != null && !cursor.isClosed()) {
+                cursor.close();
+            }
+        }
+        return vins;
     }
 
     @Override

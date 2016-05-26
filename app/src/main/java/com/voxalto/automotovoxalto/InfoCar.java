@@ -121,6 +121,7 @@ public class InfoCar extends Fragment{
                 String year = "";
                 String style_id = "";
                 String vin = "";
+                List<String> vins = new ArrayList<String>();
                 if (result != null) {
                     parentObject = new JSONObject(result);
                     if (parentObject != null) {
@@ -157,6 +158,7 @@ public class InfoCar extends Fragment{
                             tv_engineCoolantType.setText(engineCoolantType);
                             tv_brakeType.setText(brakeType);
                             tv_powerSteeringType.setText(powerSteeringType);
+                            vins = helper.getAllVins();
                         }
                         int yearInteger = Integer.parseInt(year);
 
@@ -170,7 +172,9 @@ public class InfoCar extends Fragment{
                         car.setBrakeType(brakeType);
                         car.setSteeringType(powerSteeringType);
 
+                        if (!vins.isEmpty() && !(vins.contains(vin))) {
                         helper.insertCar(car);
+                    }
                     }
                 } else {
                     List<Car> cars = helper.getAllCar();

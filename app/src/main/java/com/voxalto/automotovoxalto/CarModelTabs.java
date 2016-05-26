@@ -22,18 +22,20 @@ public class CarModelTabs extends TabActivity implements View.OnClickListener{
     private TextView tv_vin, tv_make, tv_model, tv_year, tv_engineOilType, tv_engineCoolantType, tv_brakeType, tv_powerSteeringType;
     private String model_tabs, make_tabs, year_tabs, vin_tabs, engineOilType_tabs, engineCoolantType_tabs, brakeType_tabs, powerSteeringType_tabs;
     private String model_from_db = "";
-    private DatabaseHelper helper;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.car_model_tabs);
         String model_t = getIntent().getStringExtra("Model");
-        helper = new DatabaseHelper(this);
+        DatabaseHelper helper = new DatabaseHelper(this);
+        if (helper != null) {
         List<Car> cars = helper.getAllCar();
         if(cars != null && cars.size() > 0) {
             Car car1 = cars.get(cars.size() - 1);
             if (car1 != null) {
                 model_from_db = car1.getModel();
             }
+        }
         }
         if (model_t.isEmpty()){
             model_t = model_from_db;
