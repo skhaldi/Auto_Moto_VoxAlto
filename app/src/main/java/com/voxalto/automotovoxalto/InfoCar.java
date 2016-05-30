@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.view.Menu;
 import android.view.View;
@@ -25,6 +26,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -40,13 +42,7 @@ public class InfoCar extends Fragment{
         super.onCreate(savedInstanceState);
         helper = new DatabaseHelper(getActivity());
         vinEntered = getActivity().getIntent().getStringExtra("VIN");
-        make = getActivity().getIntent().getStringExtra("Make");
-        model = getActivity().getIntent().getStringExtra("Model");
-        year = getActivity().getIntent().getStringExtra("Year");
-        engineOilType = getActivity().getIntent().getStringExtra("EngineOilType");
-        engineCoolantType = getActivity().getIntent().getStringExtra("EngineCoolantType");
-        brakeType = getActivity().getIntent().getStringExtra("BrakeType");
-        powerSteeringType = getActivity().getIntent().getStringExtra("PowerSteeringType");
+
 
         if (vinEntered != null) {
             task.execute("https://api.edmunds.com/api/vehicle/v2/vins/" + vinEntered + "?fmt=json&api_key=rp2xq63y4bf3nc2gusq9a2uy");
@@ -56,7 +52,37 @@ public class InfoCar extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.info_car, container, false);
+        View v = inflater.inflate(R.layout.info_car, container, false);
+        vinEntered = getActivity().getIntent().getStringExtra("VIN");
+        make = getActivity().getIntent().getStringExtra("Make");
+        model = getActivity().getIntent().getStringExtra("Model");
+        year = getActivity().getIntent().getStringExtra("Year");
+        engineOilType = getActivity().getIntent().getStringExtra("EngineOilType");
+        engineCoolantType = getActivity().getIntent().getStringExtra("EngineCoolantType");
+        brakeType = getActivity().getIntent().getStringExtra("BrakeType");
+        powerSteeringType = getActivity().getIntent().getStringExtra("PowerSteeringType");
+
+        TableRow tableVin = (TableRow) v.findViewById(R.id.vin_table);
+
+        tv_make = (TextView) v.findViewById(R.id.V_make);
+        tv_model = (TextView) v.findViewById(R.id.V_model);
+        tv_year = (TextView) v.findViewById(R.id.V_year);
+        tv_engineOilType = (TextView) v.findViewById(R.id.engineOilType);
+        tv_engineCoolantType = (TextView) v.findViewById(R.id.engineCoolantType);
+        tv_brakeType = (TextView) v.findViewById(R.id.brakeType);
+        tv_powerSteeringType = (TextView) v.findViewById(R.id.powerSteeringType);
+
+        if (vinEntered == null) {
+            tableVin.setVisibility(tableVin.GONE);
+            tv_make.setText(make);
+            tv_model.setText(model);
+            tv_year.setText(year);
+            tv_engineOilType.setText(engineOilType);
+            tv_engineCoolantType.setText(engineCoolantType);
+            tv_brakeType.setText(brakeType);
+            tv_powerSteeringType.setText(powerSteeringType);
+        }
+        return v;
     }
 
     public class JsonTask extends AsyncTask<String, String, String> {
@@ -118,9 +144,13 @@ public class InfoCar extends Fragment{
             try {
                 String makeName = "";
                 String modelName = "";
-                String year = "";
+                String yearName = "";
                 String style_id = "";
                 String vin = "";
+                make = getActivity().getIntent().getStringExtra("Make");
+                model = getActivity().getIntent().getStringExtra("Model");
+                year = getActivity().getIntent().getStringExtra("Year");
+
                 List<String> vins = new ArrayList<String>();
                 if (result != null) {
                     parentObject = new JSONObject(result);
@@ -144,23 +174,24 @@ public class InfoCar extends Fragment{
                             if (yearArray != null) {
                                 yearObject = yearArray.getJSONObject(0);
                                 if (yearObject != null) {
-                                    year = yearObject.getString("year");
+                                    yearName = yearObject.getString("year");
                                     JSONArray stylesArray = yearObject.getJSONArray("styles");
                                     JSONObject stylesObject = stylesArray.getJSONObject(0);
                                     style_id = stylesObject.getString("id");
                                 }
                             }
+                            tv_vin.setText(vin);
                             tv_make.setText(makeName);
                             tv_model.setText(modelName);
-                            tv_year.setText(year);
-                            tv_vin.setText(vin);
+                            tv_year.setText(yearName);
                             tv_engineOilType.setText(engineOilType);
                             tv_engineCoolantType.setText(engineCoolantType);
                             tv_brakeType.setText(brakeType);
                             tv_powerSteeringType.setText(powerSteeringType);
+
                             vins = helper.getAllVins();
                         }
-                        int yearInteger = Integer.parseInt(year);
+                        int yearInteger = Integer.parseInt(yearName);
 
                         car.setMake(makeName);
                         car.setModel(modelName);

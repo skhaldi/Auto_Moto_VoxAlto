@@ -40,14 +40,14 @@ import java.util.concurrent.ExecutionException;
 
 public class AddCar extends AppCompatActivity {
     EditText vin;
-    String vinEntered = "";
-    String model = "";
-    String make = "";
-    String year = "";
-    String engineOilType = "10W40";
-    String engineCoolantType = "IAT";
-    String brakeType = "DOT5";
-    String powerSteeringType = "Mineral Oil XXX";
+    private String vinEntered = "";
+    private String model = "";
+    private String make = "";
+    private String year = "";
+    private String engineOilType = "10W40";
+    private String engineCoolantType = "IAT";
+    private String brakeType = "DOT5";
+    private String powerSteeringType = "Mineral Oil XXX";
 
     private JsonTask task = new JsonTask();
     private JsonTask task2 = new JsonTask();
@@ -108,6 +108,10 @@ public class AddCar extends AppCompatActivity {
             i.putExtra("Model",str_model);
             i.putExtra("Make",str_make);
             i.putExtra("Year",str_year);
+            i.putExtra("EngineOilType", engineOilType);
+            i.putExtra("EngineCoolantType", engineCoolantType);
+            i.putExtra("BrakeType", brakeType);
+            i.putExtra("PowerSteeringType", powerSteeringType);
             startActivity(i);
         }
     }

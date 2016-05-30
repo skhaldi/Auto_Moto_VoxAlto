@@ -33,6 +33,7 @@ public class CarInfoMnt extends AppCompatActivity {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
+    private String model_car, make_car, year_car, engineOilType_car, engineCoolantType_car, brakeType_car, powerSteeringType_car;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,9 +41,22 @@ public class CarInfoMnt extends AppCompatActivity {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.car_info_mnt);
 
-//        String vin = getIntent().getStringExtra("VIN");
-//        Intent i = new Intent(CarInfoMnt.this, InfoCar.class);
-//        i.putExtra("VIN",vin);
+        make_car = getIntent().getStringExtra("Make");
+        model_car = getIntent().getStringExtra("Model");
+        year_car = getIntent().getStringExtra("Year");
+        engineOilType_car = getIntent().getStringExtra("EngineOilType");
+        engineCoolantType_car = getIntent().getStringExtra("EngineCoolantType");
+        brakeType_car = getIntent().getStringExtra("BrakeType");
+        powerSteeringType_car = getIntent().getStringExtra("PowerSteeringType");
+
+        Intent intent = new Intent(this, InfoCar.class);
+        intent.putExtra("Model", model_car);
+        intent.putExtra("Make", make_car);
+        intent.putExtra("Year", year_car);
+        intent.putExtra("EngineOilType", engineOilType_car);
+        intent.putExtra("EngineCoolantType", engineCoolantType_car);
+        intent.putExtra("BrakeType", brakeType_car);
+        intent.putExtra("PowerSteeringType", powerSteeringType_car);
 
         getSupportActionBar().hide();
 

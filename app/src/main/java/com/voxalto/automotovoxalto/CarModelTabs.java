@@ -27,6 +27,12 @@ public class CarModelTabs extends TabActivity implements View.OnClickListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.car_model_tabs);
         String model_t = getIntent().getStringExtra("Model");
+
+        engineOilType_tabs = getIntent().getStringExtra("EngineOilType");
+        engineCoolantType_tabs = getIntent().getStringExtra("EngineCoolantType");
+        brakeType_tabs = getIntent().getStringExtra("BrakeType");
+        powerSteeringType_tabs = getIntent().getStringExtra("PowerSteeringType");
+
         DatabaseHelper helper = new DatabaseHelper(this);
         if (helper != null) {
         List<Car> cars = helper.getAllCar();
