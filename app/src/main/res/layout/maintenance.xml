@@ -3,7 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#a6e7f0">
 
     <TableLayout
         android:layout_width="match_parent"
@@ -121,15 +122,21 @@
         </TableRow>
     </TableLayout>
 
-    <TableLayout
-        android:id="@+id/schedule_status_table"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/cell_shape"
         android:layout_marginTop="15dp"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
-        android:layout_marginBottom="5dp"
-        android:background="@drawable/cell_shape">
+        android:layout_marginBottom="5dp">
+
+        <TableLayout
+            android:id="@+id/schedule_status_table"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/cell_shape"
+            android:baselineAligned="true">
 
         <TableRow
             android:id="@+id/schedule_table"
@@ -141,19 +148,19 @@
                 android:id="@+id/schedule"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="5dp"
                 android:text="Scheduled Maintenance"
-                android:textAppearance="?android:attr/textAppearanceLarge"></TextView>
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textAlignment="center"></TextView>
 
             <TextView
                 android:id="@+id/status"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="5dp"
                 android:text="Status"
+                    android:layout_marginLeft="5dp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:layout_weight="18"></TextView>
+                    android:textAlignment="center"></TextView>
         </TableRow>
     </TableLayout>
-
+    </LinearLayout>
 </LinearLayout>

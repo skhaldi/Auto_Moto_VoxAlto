@@ -2,6 +2,7 @@ package com.voxalto.automotovoxalto;
 
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,6 +14,9 @@ import android.view.ViewGroup;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+
+import java.security.cert.CertificateNotYetValidException;
+
 /**
  * Created by Sabah on 5/2/2016.
  */
@@ -48,33 +52,31 @@ public class Maintenance extends Fragment {
 
         TableLayout tl = (TableLayout) fragmentHandle.findViewById(R.id.schedule_status_table);
 
-
         TableLayout.LayoutParams params = new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT);
-        params.setMargins(5, 5, 5, 5);
+        //.setMargins(left, top, right, bottom);
+        params.setMargins(5, 1, 1, 1);
         tl.setLayoutParams(params);
-        //tl.setBackground();
 
         for (int i = 1; i < 5; i++) {
         TableRow row = new TableRow(getActivity());
         TextView tv = new TextView(getActivity());
             tv.setText(" " + i * 10000 + " miles");
-            tv.setTypeface(null, Typeface.BOLD);
+            tv.setGravity(Gravity.CENTER);
+            tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
             tv.setTextSize(20);
 
         TextView tv_status = new TextView(getActivity());
             tv_status.setGravity(Gravity.CENTER);
-
             if(i == 4){
-                tv_status.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.redcross, 0, 0,0);
+                tv_status.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.redcross, 0);
             } else {
-                tv_status.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.greentick, 0, 0,0);
+                tv_status.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.greentick, 0);
             }
-
-        tl.addView(row);
+            tv_status.setTextSize(20);
             row.setBackgroundResource(R.drawable.cell_shape);
         row.addView(tv);
         row.addView(tv_status);
-
+            tl.addView(row);
         }
         return fragmentHandle;
     }
