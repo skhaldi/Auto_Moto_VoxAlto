@@ -88,10 +88,12 @@ public class AddCar extends AppCompatActivity {
 
     public void OnClickButtonCancelVin(View v){
         if(v.getId() == R.id.CancelVin){
-            Intent i = new Intent(this, MainActivity.class);
-            startActivity(i);
+//            Intent i = new Intent(this, MainActivity.class);
+//            startActivity(i);
+            onBackPressed();
         }
     }
+
 
     public void OnClickButtonScanModel(View v){
         if(v.getId() == R.id.ScanModel){
@@ -118,8 +120,9 @@ public class AddCar extends AppCompatActivity {
 
     public void OnClickButtonCancelModel(View v){
         if(v.getId() == R.id.CancelModel){
-            Intent i = new Intent(this, MainActivity.class);
-            startActivity(i);
+//            Intent i = new Intent(this, MainActivity.class);
+//            startActivity(i);
+            onBackPressed();
         }
     }
 

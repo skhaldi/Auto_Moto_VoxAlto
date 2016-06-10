@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:id="@+id/drawer_layout"
     android:orientation="vertical"
-    android:background="#a6e7f0">
+    android:background="#dbf8fc">
 
     <ListView
         android:layout_width="100dp"

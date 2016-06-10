@@ -32,10 +32,11 @@ import java.util.List;
 
 public class InfoCar extends Fragment{
     private String model, make, year, vinEntered, engineOilType, engineCoolantType, brakeType, powerSteeringType;
-    TabHost host;
+    
     private TextView tv_vin, tv_make, tv_model, tv_year, tv_engineOilType, tv_engineCoolantType, tv_brakeType, tv_powerSteeringType;
-    private JsonTask task = new JsonTask();
+
     private DatabaseHelper helper;
+    private JsonTask task;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,8 +46,13 @@ public class InfoCar extends Fragment{
 
 
         if (vinEntered != null) {
+            task = new JsonTask();
             task.execute("https://api.edmunds.com/api/vehicle/v2/vins/" + vinEntered + "?fmt=json&api_key=rp2xq63y4bf3nc2gusq9a2uy");
         }
+
+       // else
+        //TO DO : need an API that returns the car information by model/make/year
+        //task.execute("https://api.edmunds.com/api/vehicle/v2/vins/" + vin + "?fmt=json&api_key=rp2xq63y4bf3nc2gusq9a2uy");
     }
 
     @Override
@@ -145,7 +151,6 @@ public class InfoCar extends Fragment{
                 String makeName = "";
                 String modelName = "";
                 String yearName = "";
-                String style_id = "";
                 String vin = "";
                 make = getActivity().getIntent().getStringExtra("Make");
                 model = getActivity().getIntent().getStringExtra("Model");
@@ -177,7 +182,6 @@ public class InfoCar extends Fragment{
                                     yearName = yearObject.getString("year");
                                     JSONArray stylesArray = yearObject.getJSONArray("styles");
                                     JSONObject stylesObject = stylesArray.getJSONObject(0);
-                                    style_id = stylesObject.getString("id");
                                 }
                             }
                             tv_vin.setText(vin);

@@ -26,6 +26,7 @@
         android:paddingBottom="16dp"
         android:orientation="vertical"
         tools:context="com.voxalto.automotovoxalto.AddCar"
+        android:background="#dbf8fc"
         android:id="@+id/add_car_content">
 
         <TableLayout
