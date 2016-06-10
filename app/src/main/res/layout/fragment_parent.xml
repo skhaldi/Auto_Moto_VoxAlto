@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_alignParentBottom="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <android.support.design.widget.TabLayout
+                android:id="@+id/my_tab_layout"
+                android:layout_width="298dp"
+                android:layout_height="?attr/actionBarSize"
+                app:tabMode="scrollable"
+                app:tabSelectedTextColor="@android:color/background_light"
+                app:tabTextColor="@android:color/secondary_text_light_nodisable"
+                android:layout_weight="1"
+                android:layout_marginTop="1dp" />
+
+            <Button
+                android:id="@+id/add_tab"
+                android:layout_marginTop="-80dp"
+                android:layout_margin="3dp"
+                android:layout_marginLeft="15dp"
+                android:layout_width="48dp"
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/selector_nice_button"
+                android:gravity="center_vertical|center_horizontal"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:text="+"
+                android:layout_gravity="right|top"
+                android:shadowColor="#000000"
+                android:shadowDx="1"
+                android:shadowDy="1"
+                android:shadowRadius="2"
+                android:onClick="AddNewTabOnClick" />
+
+        </LinearLayout>
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/my_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/appbar_layout">
+    </android.support.v4.view.ViewPager>
+
+</LinearLayout>
