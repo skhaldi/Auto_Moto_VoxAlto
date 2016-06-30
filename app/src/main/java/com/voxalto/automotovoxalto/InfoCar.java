@@ -1,6 +1,9 @@
 package com.voxalto.automotovoxalto;
 
+import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -11,9 +14,6 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.view.Menu;
 import android.view.View;
-
-import android.widget.TabHost;
-
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,68 +28,205 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 
 public class InfoCar extends Fragment{
-    private String model, make, year, vinEntered, engineOilType, engineCoolantType, brakeType, powerSteeringType;
+    private String model,modelEntered,make,makeEntered,year,yearEntered,vinEntered,engineOilType,engineCoolantType,brakeType,powerSteeringType;
     
     private TextView tv_vin, tv_make, tv_model, tv_year, tv_engineOilType, tv_engineCoolantType, tv_brakeType, tv_powerSteeringType;
 
     private DatabaseHelper helper;
     private JsonTask task;
 
+    
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         helper = new DatabaseHelper(getActivity());
-        vinEntered = getActivity().getIntent().getStringExtra("VIN");
-
-
-        if (vinEntered != null) {
-            task = new JsonTask();
-            task.execute("https://api.edmunds.com/api/vehicle/v2/vins/" + vinEntered + "?fmt=json&api_key=rp2xq63y4bf3nc2gusq9a2uy");
-        }
-
-       // else
-        //TO DO : need an API that returns the car information by model/make/year
-        //task.execute("https://api.edmunds.com/api/vehicle/v2/vins/" + vin + "?fmt=json&api_key=rp2xq63y4bf3nc2gusq9a2uy");
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.info_car, container, false);
-        vinEntered = getActivity().getIntent().getStringExtra("VIN");
-        make = getActivity().getIntent().getStringExtra("Make");
-        model = getActivity().getIntent().getStringExtra("Model");
-        year = getActivity().getIntent().getStringExtra("Year");
-        engineOilType = getActivity().getIntent().getStringExtra("EngineOilType");
-        engineCoolantType = getActivity().getIntent().getStringExtra("EngineCoolantType");
-        brakeType = getActivity().getIntent().getStringExtra("BrakeType");
-        powerSteeringType = getActivity().getIntent().getStringExtra("PowerSteeringType");
 
-        TableRow tableVin = (TableRow) v.findViewById(R.id.vin_table);
+        SharedPreferences prefModel = getContext().getSharedPreferences("KeyByModel", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editorModel = prefModel.edit();
+        String comingFrom1 = prefModel.getString("ComingFrom", null);
 
-        tv_make = (TextView) v.findViewById(R.id.V_make);
-        tv_model = (TextView) v.findViewById(R.id.V_model);
-        tv_year = (TextView) v.findViewById(R.id.V_year);
-        tv_engineOilType = (TextView) v.findViewById(R.id.engineOilType);
-        tv_engineCoolantType = (TextView) v.findViewById(R.id.engineCoolantType);
-        tv_brakeType = (TextView) v.findViewById(R.id.brakeType);
-        tv_powerSteeringType = (TextView) v.findViewById(R.id.powerSteeringType);
+        SharedPreferences prefVin = getContext().getSharedPreferences("KeyByVin", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editorVin = prefVin.edit();
+        String comingFrom2 = prefVin.getString("ComingFrom", null);
 
-        if (vinEntered == null) {
+        if ( (comingFrom1 == null || comingFrom1.isEmpty() || comingFrom1.equals("null")) && (comingFrom2 == null || comingFrom2.isEmpty() || comingFrom2.equals("null")) ) {
+            GetVehicleInfoFromAddCar(v);
+        }
+        else{
+            GetVehicleInfoFromDialog(v);
+        }
+        return v;
+    }
+
+
+
+    public void GetVehicleInfoFromDialog(View view){
+        SharedPreferences prefVin = getContext().getSharedPreferences("KeyByVin", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editorVin = prefVin.edit();
+        boolean ByVin = prefVin.getBoolean("ByVin", false);
+
+        if (ByVin == true) {
+            vinEntered = prefVin.getString("VIN", null);
+            editorVin.clear();
+            editorVin.commit();
+            JSONObject obj = null;
+        if (vinEntered != null) {
+            task = new JsonTask();
+                String output = null;
+                try {
+                    output = task.execute("https://api.edmunds.com/api/vehicle/v2/vins/" + vinEntered + "?fmt=json&api_key=rp2xq63y4bf3nc2gusq9a2uy").get();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                }
+                if (output != null) {
+                    try {
+                        obj = new JSONObject(output);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        model = obj.getJSONObject("model").getString("name");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        make = obj.getJSONObject("make").getString("name");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+        }
+                    try {
+                        year = obj.getJSONArray("years").getJSONObject(0).getString("year");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    engineOilType = "10W40";
+                    engineCoolantType = "IAT";
+                    brakeType = "DOT5";
+                    powerSteeringType = "Mineral Oil XXX";
+                }
+            }
+        }
+        else {
+            SharedPreferences prefModel = getContext().getSharedPreferences("KeyByModel", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editorModel = prefModel.edit();
+            String modelEntered = prefModel.getString("Model", null);
+            String makeEntered = prefModel.getString("Make", null);
+            String yearEntered = prefModel.getString("Year", null);
+            String engineOilType = prefModel.getString("engineOilType", null);
+            String engineCoolantType = prefModel.getString("engineCoolantType", null);
+            String brakeType = prefModel.getString("brakeType", null);
+            String powerSteeringType = prefModel.getString("powerSteeringType", null);
+            editorModel.clear();
+            editorModel.commit();
+
+            TableRow tableVin = (TableRow) view.findViewById(R.id.vin_table);
             tableVin.setVisibility(tableVin.GONE);
-            tv_make.setText(make);
-            tv_model.setText(model);
-            tv_year.setText(year);
+
+            tv_make = (TextView) view.findViewById(R.id.V_make);
+            tv_model = (TextView) view.findViewById(R.id.V_model);
+            tv_year = (TextView) view.findViewById(R.id.V_year);
+
+            tv_engineOilType = (TextView) view.findViewById(R.id.engineOilType);
+            tv_engineCoolantType = (TextView) view.findViewById(R.id.engineCoolantType);
+            tv_brakeType = (TextView) view.findViewById(R.id.brakeType);
+            tv_powerSteeringType = (TextView) view.findViewById(R.id.powerSteeringType);
+
+            tv_make.setText(makeEntered);
+            tv_model.setText(modelEntered);
+            tv_year.setText(yearEntered);
             tv_engineOilType.setText(engineOilType);
             tv_engineCoolantType.setText(engineCoolantType);
             tv_brakeType.setText(brakeType);
             tv_powerSteeringType.setText(powerSteeringType);
         }
-        return v;
     }
+
+
+
+    public void GetVehicleInfoFromAddCar(View view) {
+        vinEntered = getActivity().getIntent().getStringExtra("VIN");
+        JSONObject obj = null;
+        if (vinEntered != null) {
+            task = new JsonTask();
+            String output = null;
+            try {
+                output = task.execute("https://api.edmunds.com/api/vehicle/v2/vins/" + vinEntered + "?fmt=json&api_key=rp2xq63y4bf3nc2gusq9a2uy").get();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+            if (output != null) {
+                try {
+                    obj = new JSONObject(output);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    model = obj.getJSONObject("model").getString("name");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    make = obj.getJSONObject("make").getString("name");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    year = obj.getJSONArray("years").getJSONObject(0).getString("year");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                engineOilType = "10W40";
+                engineCoolantType = "IAT";
+                brakeType = "DOT5";
+                powerSteeringType = "Mineral Oil XXX";
+            }
+        }
+        else {
+            makeEntered = getActivity().getIntent().getStringExtra("Make");
+            modelEntered = getActivity().getIntent().getStringExtra("Model");
+            yearEntered = getActivity().getIntent().getStringExtra("Year");
+        engineOilType = getActivity().getIntent().getStringExtra("EngineOilType");
+        engineCoolantType = getActivity().getIntent().getStringExtra("EngineCoolantType");
+        brakeType = getActivity().getIntent().getStringExtra("BrakeType");
+        powerSteeringType = getActivity().getIntent().getStringExtra("PowerSteeringType");
+
+            TableRow tableVin = (TableRow) view.findViewById(R.id.vin_table);
+            tableVin.setVisibility(tableVin.GONE);
+
+            tv_make = (TextView) view.findViewById(R.id.V_make);
+            tv_model = (TextView) view.findViewById(R.id.V_model);
+            tv_year = (TextView) view.findViewById(R.id.V_year);
+
+            tv_engineOilType = (TextView) view.findViewById(R.id.engineOilType);
+            tv_engineCoolantType = (TextView) view.findViewById(R.id.engineCoolantType);
+            tv_brakeType = (TextView) view.findViewById(R.id.brakeType);
+            tv_powerSteeringType = (TextView) view.findViewById(R.id.powerSteeringType);
+
+            tv_make.setText(makeEntered);
+            tv_model.setText(modelEntered);
+            tv_year.setText(yearEntered);
+            tv_engineOilType.setText(engineOilType);
+            tv_engineCoolantType.setText(engineCoolantType);
+            tv_brakeType.setText(brakeType);
+            tv_powerSteeringType.setText(powerSteeringType);
+        }
+
+    }
+
 
     public class JsonTask extends AsyncTask<String, String, String> {
         @Override
@@ -171,9 +308,8 @@ public class InfoCar extends Fragment{
                             }
                             if ( parentObject.has("vin") ){
                             vin = parentObject.getString("vin");
-                            } else {
-                                vin = vinEntered.toUpperCase();
                             }
+                            else vin = vinEntered.toUpperCase();
                             JSONArray yearArray = parentObject.getJSONArray("years");
                             JSONObject yearObject = null;
                             if (yearArray != null) {

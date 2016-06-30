@@ -16,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.voxalto.automotovoxalto.adapter.SlidingMenuAdapter;
 import com.voxalto.automotovoxalto.fragment.Fragment1;
@@ -49,8 +50,8 @@ public class AddCar extends AppCompatActivity {
     private String brakeType = "DOT5";
     private String powerSteeringType = "Mineral Oil XXX";
 
-    private JsonTask task = new JsonTask();
-    private JsonTask task2 = new JsonTask();
+    private JsonTask task;
+    private JsonTask task2;
     private ActionBarDrawerToggle actionBarDrawerToggle;
     private DatabaseHelper helper;
 
@@ -64,15 +65,24 @@ public class AddCar extends AppCompatActivity {
     }
 
     public void OnClickButtonScanVin(View v) throws ExecutionException, InterruptedException, JSONException {
-        if(v.getId() == R.id.ScanVin){
             vin = (EditText)findViewById(R.id.TFvin);
             vinEntered = vin.getText().toString();
-            JSONObject obj = null;
+        if(v.getId() == R.id.ScanVin && (vinEntered == null || vinEntered.isEmpty() || vinEntered.equals("null")) ) {
+            Toast.makeText(getApplicationContext(), "Please enter a valid VIN", Toast.LENGTH_LONG).show();
+        }
+        else if(v.getId() == R.id.ScanVin && (vinEntered != null && !vinEntered.isEmpty() && !vinEntered.equals("null")) ){
+            JSONObject obj;
+            task = new JsonTask();
             String output = task.execute("https://api.edmunds.com/api/vehicle/v2/vins/" + vinEntered + "?fmt=json&api_key=rp2xq63y4bf3nc2gusq9a2uy").get();
             if (output != null) {
                 obj = new JSONObject(output);
             model = obj.getJSONObject("model").getString("name");
-            }
+                make = obj.getJSONObject("make").getString("name");
+                year = obj.getJSONArray("years").getJSONObject(0).getString("year");
+                engineOilType = "10W40";
+                engineCoolantType = "IAT";
+                brakeType = "DOT5";
+                powerSteeringType = "Mineral Oil XXX";
             Intent i = new Intent(AddCar.this, CarModelTabs.class);
             i.putExtra("Model", model);
             i.putExtra("Make", make);
@@ -84,20 +94,22 @@ public class AddCar extends AppCompatActivity {
             i.putExtra("VIN", vinEntered);
             startActivity(i);
         }
+            else {
+                Toast.makeText(getApplicationContext(), "Please enter a valid VIN", Toast.LENGTH_LONG).show();
+            }
+
+        }
     }
 
     public void OnClickButtonCancelVin(View v){
         if(v.getId() == R.id.CancelVin){
-//            Intent i = new Intent(this, MainActivity.class);
-//            startActivity(i);
-            onBackPressed();
+            Intent i = new Intent(this, MainActivity.class);
+            startActivity(i);
         }
     }
 
 
     public void OnClickButtonScanModel(View v){
-        if(v.getId() == R.id.ScanModel){
-
             EditText model = (EditText)findViewById(R.id.TFmodel);
             EditText make = (EditText)findViewById(R.id.TFmake);
             EditText year = (EditText)findViewById(R.id.TFyear);
@@ -106,6 +118,16 @@ public class AddCar extends AppCompatActivity {
             String str_make = make.getText().toString();
             String str_year = year.getText().toString();
 
+        if (v.getId() == R.id.ScanModel && (str_make == null || str_make.isEmpty() || str_make.equals("null"))){
+            Toast.makeText(getApplicationContext(), "Please enter a valid Make", Toast.LENGTH_LONG).show();
+        }
+        else if(v.getId() == R.id.ScanModel && (str_model == null || str_model.isEmpty() || str_model.equals("null"))){
+            Toast.makeText(getApplicationContext(), "Please enter a valid Model", Toast.LENGTH_LONG).show();
+        }
+        else if (v.getId() == R.id.ScanModel && (str_year == null || str_year.isEmpty() || str_year.equals("null"))){
+            Toast.makeText(getApplicationContext(), "Please enter a valid Year", Toast.LENGTH_LONG).show();
+        }
+        else if (v.getId() == R.id.ScanModel){
             Intent i = new Intent(this, CarModelTabs.class);
             i.putExtra("Model",str_model);
             i.putExtra("Make",str_make);
@@ -120,9 +142,8 @@ public class AddCar extends AppCompatActivity {
 
     public void OnClickButtonCancelModel(View v){
         if(v.getId() == R.id.CancelModel){
-//            Intent i = new Intent(this, MainActivity.class);
-//            startActivity(i);
-            onBackPressed();
+            Intent i = new Intent(this, MainActivity.class);
+            startActivity(i);
         }
     }
 
@@ -232,6 +253,7 @@ public class AddCar extends AppCompatActivity {
                     if (task.getStatus().toString() == "RUNNING") {
                         task.cancel(true);
                     }
+                    task2 = new JsonTask();
                     task2.execute("https://api.edmunds.com/api/vehicle/v2/styles/" + style_id + "/engines?availability=standard&fmt=json&api_key=rp2xq63y4bf3nc2gusq9a2uy");
                 }
             } catch (JSONException e) {

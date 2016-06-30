@@ -8,11 +8,11 @@
             <TableLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/cell_shape"
+        android:background="@drawable/shape_file"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:layout_marginBottom="5dp"
-                android:layout_marginTop="15dp">
+        android:layout_marginTop="2dp">
 
                 <TableRow
                     android:id="@+id/vin_table"
@@ -28,14 +28,18 @@
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:text="VIN : "
                         android:id="@+id/textView4"
-                        android:layout_marginLeft="5dp" />
+                android:layout_marginLeft="5dp"
+                android:textStyle="italic"
+                android:textSize="20sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:id="@+id/V_vin"
-                        android:text="" />
+                android:text=""
+                android:textStyle="italic"
+                android:textSize="20sp"/>
                 </TableRow>
                 <TableRow
                     android:id="@+id/year_table"
@@ -48,14 +52,18 @@
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:text="Year : "
-                        android:id="@+id/textView5" />
+                android:id="@+id/textView5"
+                android:textStyle="italic"
+                android:textSize="20sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:id="@+id/V_year"
-                        android:text=""/>
+                android:text=""
+                android:textStyle="italic"
+                android:textSize="20sp"/>
                 </TableRow>
 
                 <TableRow
@@ -70,14 +78,18 @@
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:text="Model : "
-                        android:id="@+id/textView6" />
+                android:id="@+id/textView6"
+                android:textStyle="italic"
+                android:textSize="20sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:id="@+id/V_model"
-                        android:text="" />
+                android:text=""
+                android:textStyle="italic"
+                android:textSize="20sp"/>
                 </TableRow>
 
                 <TableRow
@@ -91,21 +103,25 @@
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:text="Make : "
-                        android:id="@+id/textView7" />
+                android:id="@+id/textView7"
+                android:textStyle="italic"
+                android:textSize="20sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:id="@+id/V_make"
-                        android:text="" />
+                android:text=""
+                android:textStyle="italic"
+                android:textSize="20sp"/>
                 </TableRow>
             </TableLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/cell_shape"
-        android:layout_marginTop="15dp"
+        android:background="#dbf8fc"
+        android:layout_marginTop="0dp"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:layout_marginBottom="5dp">
@@ -113,23 +129,23 @@
                 android:id="@+id/fluid_type_table"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/cell_shape"
+            android:background="@drawable/shape_file"
                 android:baselineAligned="true">
 
                 <TableRow
                     android:id="@+id/fluid_table"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/cell_shape"
                     android:layout_marginLeft="5dp">
                     <TextView
                         android:id="@+id/fluid"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="5dp"
-                        android:text="Fluid"
-                        android:background="@drawable/cell_shape"
-                        android:textAppearance="?android:attr/textAppearanceLarge"></TextView>
+                    android:text="Fluid :"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textStyle="italic"
+                    android:textSize="20sp"></TextView>
 
                     <TextView
                         android:id="@+id/fluidType"
@@ -137,23 +153,25 @@
                         android:layout_height="wrap_content"
                         android:padding="5dp"
                         android:text="Type"
-                        android:textAppearance="?android:attr/textAppearanceLarge"></TextView>
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textStyle="italic"
+                    android:textSize="20sp"></TextView>
                 </TableRow>
 
                 <TableRow
                     android:id="@+id/engine_table"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/cell_shape"
                     android:layout_marginLeft="5dp">
                     <TextView
                         android:id="@+id/engineOil"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="5dp"
-                        android:text="Engine Oil"
-                        android:background="@drawable/cell_shape"
-                        android:textAppearance="?android:attr/textAppearanceLarge"></TextView>
+                    android:text="Engine Oil :"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textStyle="italic"
+                    android:textSize="20sp"></TextView>
 
                     <TextView
                         android:id="@+id/engineOilType"
@@ -161,6 +179,8 @@
                         android:layout_height="match_parent"
                         android:padding="5dp"
                         android:text=""
+                    android:textStyle="italic"
+                    android:textSize="20sp"
                         android:textAppearance="?android:attr/textAppearanceLarge"></TextView>
                 </TableRow>
 
@@ -168,7 +188,6 @@
                     android:id="@+id/engineCoolantTable"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/cell_shape"
                     android:layout_marginLeft="5dp">
 
                     <TextView
@@ -176,9 +195,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="5dp"
-                        android:text="Engine Coolant"
-                        android:background="@drawable/cell_shape"
-                        android:textAppearance="?android:attr/textAppearanceLarge"></TextView>
+                    android:text="Engine Coolant :"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textStyle="italic"
+                    android:textSize="20sp"></TextView>
 
                     <TextView
                         android:id="@+id/engineCoolantType"
@@ -186,6 +206,8 @@
                         android:layout_height="wrap_content"
                         android:padding="5dp"
                         android:text=""
+                    android:textStyle="italic"
+                    android:textSize="20sp"
                         android:textAppearance="?android:attr/textAppearanceLarge"></TextView>
                 </TableRow>
 
@@ -193,16 +215,16 @@
                     android:id="@+id/brakeTable"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/cell_shape"
                     android:layout_marginLeft="5dp">
 
                     <TextView
                         android:id="@+id/brake"
                         android:layout_width="wrap_content"
                         android:padding="5dp"
-                        android:text="Brake"
-                        android:background="@drawable/cell_shape"
-                        android:textAppearance="?android:attr/textAppearanceLarge"></TextView>
+                    android:text="Brake :"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textStyle="italic"
+                    android:textSize="20sp"></TextView>
 
                     <TextView
                         android:id="@+id/brakeType"
@@ -210,6 +232,8 @@
                         android:layout_height="wrap_content"
                         android:padding="5dp"
                         android:text=""
+                    android:textStyle="italic"
+                    android:textSize="20sp"
                         android:textAppearance="?android:attr/textAppearanceLarge"></TextView>
                 </TableRow>
 
@@ -217,7 +241,6 @@
                     android:id="@+id/powerSteeringTable"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/cell_shape"
                     android:layout_marginLeft="5dp">
 
                     <TextView
@@ -225,9 +248,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="5dp"
-                        android:text="Power Steering"
-                        android:background="@drawable/cell_shape"
-                        android:textAppearance="?android:attr/textAppearanceLarge"></TextView>
+                    android:text="Power Steering :"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textStyle="italic"
+                    android:textSize="20sp"></TextView>
 
                     <TextView
                         android:id="@+id/powerSteeringType"
@@ -235,6 +259,8 @@
                         android:layout_height="wrap_content"
                         android:padding="5dp"
                         android:text=""
+                    android:textStyle="italic"
+                    android:textSize="20sp"
                         android:textAppearance="?android:attr/textAppearanceLarge"></TextView>
                 </TableRow>
             </TableLayout>

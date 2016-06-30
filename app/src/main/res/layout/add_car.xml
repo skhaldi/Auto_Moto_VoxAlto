@@ -93,7 +93,7 @@
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:text="VIN (*)"
                         android:id="@+id/textView"
-                        android:layout_gravity="center_vertical" />
+                        android:layout_gravity="center_vertical|bottom" />
 
                     <EditText
                         android:layout_width="wrap_content"
@@ -101,7 +101,9 @@
                         android:id="@+id/TFvin"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1.00"
-                        android:textColor="#3e2723" />
+                        android:textColor="#3e2723"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="40dp" />
             </LinearLayout>
             <LinearLayout
                 xmlns:android="http://schemas.android.com/apk/res/android"
@@ -185,7 +187,7 @@
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="Make (*)"
                     android:id="@+id/textViewMake"
-                    android:layout_gravity="center_vertical" />
+                    android:layout_gravity="center_vertical|bottom" />
 
                 <EditText
                     android:layout_width="wrap_content"
@@ -195,7 +197,7 @@
                     android:layout_weight="1.00"
                     android:textColor="#3e2723"
                     android:layout_marginLeft="20dp"
-                    android:layout_marginRight="60dp" />
+                    android:layout_marginRight="40dp" />
             </LinearLayout>
             <LinearLayout
                 xmlns:android="http://schemas.android.com/apk/res/android"
@@ -209,7 +211,7 @@
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="Model (*)"
                     android:id="@+id/textViewModel"
-                    android:layout_gravity="center_vertical" />
+                    android:layout_gravity="center_vertical|bottom" />
 
                 <EditText
                     android:layout_width="wrap_content"
@@ -219,7 +221,7 @@
                     android:layout_weight="1.00"
                     android:textColor="#3e2723"
                     android:layout_marginLeft="20dp"
-                    android:layout_marginRight="60dp" />
+                    android:layout_marginRight="40dp" />
             </LinearLayout>
             <LinearLayout
                 xmlns:android="http://schemas.android.com/apk/res/android"
@@ -233,7 +235,7 @@
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="Year (*)"
                     android:id="@+id/textViewYear"
-                    android:layout_gravity="center_vertical" />
+                    android:layout_gravity="center_vertical|bottom" />
 
                 <EditText
                     android:layout_width="wrap_content"
@@ -243,7 +245,7 @@
                     android:layout_weight="1.00"
                     android:textColor="#3e2723"
                     android:layout_marginLeft="20dp"
-                    android:layout_marginRight="60dp" />
+                    android:layout_marginRight="40dp" />
             </LinearLayout>
             <LinearLayout
                 xmlns:android="http://schemas.android.com/apk/res/android"

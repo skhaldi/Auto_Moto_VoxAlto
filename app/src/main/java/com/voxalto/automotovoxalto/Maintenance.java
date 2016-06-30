@@ -1,12 +1,7 @@
 package com.voxalto.automotovoxalto;
 
-import android.graphics.Color;
-import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,8 +9,6 @@ import android.view.ViewGroup;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-
-import java.security.cert.CertificateNotYetValidException;
 
 /**
  * Created by Sabah on 5/2/2016.
@@ -70,7 +63,7 @@ public class Maintenance extends Fragment {
             if(i == 4){
                 tv_status.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.redcross, 0);
             } else {
-                tv_status.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.greentick, 0);
+                tv_status.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.greentickicon, 0);
             }
             tv_status.setTextSize(20);
             row.setBackgroundResource(R.drawable.cell_shape);
